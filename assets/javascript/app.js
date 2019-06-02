@@ -4,10 +4,10 @@ $(document).ready(function(){
 var questions = [
     {q:"The sum of all angles on any triangle adds up to how many degrees", 
     a: "180 degrees",
-    c: "180 degrees",
-    c: "45 degrees",
-    c: "90 degrees",
-    c: "360 degrees"},
+    c1:"180 degrees",
+    c2:"45 degrees",
+    c3:"90 degrees",
+    c4:"360 degrees"},
 
     {q: "Which word contains a long vowel sound in the following sentence? 'Dogs like tennis balls.'",
     a:  "Like",
@@ -75,10 +75,11 @@ var questions = [
 ];
 
 var correct = 0;
+var incorrect = 0;
 var questionIndex = 0;
 var displayQuestion;
-var timer = 30;
-var timeUp = false;
+var timeNotUp = true;
+var time =10;
 var timerID;
 var userAnswer;
 
@@ -88,25 +89,57 @@ var userAnswer;
 $(".btn-start").on("click",loading);
 $(".btn-restart").on("click", restart);
 
-
-
-
 // Starting the Game // Screen Transition
 function loading(){
     $(".main-screen").fadeOut();
-    $(".loading-screen").delay(2000).fadeIn();
-    $(".loading-screen").delay(5000).fadeOut();
-    $(".question-screen").delay(9000).fadeIn();
+    // $(".loading-screen").delay(2000).fadeIn();
+    // $(".loading-screen").delay(5000).fadeOut();
+    // $(".question-screen").delay(9000).fadeIn();
+    $(".loading-screen").delay(1000).fadeIn();
+    $(".loading-screen").delay(1000).fadeOut();
+    $(".question-screen").delay(1000).fadeIn();
 }
 
-// ********Game Functions********
+displayQuestion();
+timer();
+userAnswer();
 
+
+
+// ********Game Functions********
+// Timer for each question and resetting after each question
+function timer(){
+    if (timeNotUp) {
+        timerID = setInterval(decrement, 1000);
+        timeNotUp = false;
+    }
+   }
+   function decrement() {
+       time--;
+   
+       $(".counter").text(time);
+   
+       if (time === 0) {
+         
+           stop();
+   
+           showAnswer();
+       }
+   }
+   
+   function stop(){
+       timeNotUp = true;
+       clearInterval(timerID);
+   }
 
 // Displays Next Question
 function displayQuestion(){
 if (questionIndex <= questions.length -1) {
     $(".question").append(questions[questionIndex].q);
-    $(".choice").append("<div>" +questions[questionIndex].c +"</div>");
+    $(".choice").append("<div class='option' data='c-1'>" +questions[questionIndex].c1 +"</div>");
+    $(".choice").append("<div class='option' data='c-2'>" +questions[questionIndex].c2 +"</div>");
+    $(".choice").append("<div class='option data='c-3'>" +questions[questionIndex].c3 +"</div>");
+    $(".choice").append("<div class='option data='c-4'>" +questions[questionIndex].c4 +"</div>");
 }
 else {
     $(".result").append("Game Over!");
@@ -116,51 +149,50 @@ else {
 
 // Checking if user answer is correct
 function userAnswer() {
-    $(".choice").on("click", function(){
-        userAnswer = this;
+    $(".option").on("click", function(){
+        userAnswer = $(".option").attr('data');
+        switch (userAnswer){
+            case 'c-1':
+            userAnswer = questions[questionIndex].c1;
+            break;
+            case 'c-2':
+            userAnswer = questions[questionIndex].c2;
+            break;
+            case 'c-3':
+            userAnswer = questions[questionIndex].c3;
+            break;
+            case 'c-4':
+            userAnswer = questions[questionIndex].c4;
+            break;
+        }
+        console.log("choice is" +userAnswer);
         if (userAnswer == questions[questionIndex].a){
             correct++;
-            $(".choice").append("<div> Correct! The correct answer is: " +questions[questionIndex].a +"</div>");
+            console.log("correct " +correct);
+            $(".choice").append("<div> Correct! </div>");
         }
         else {
-            $(".choice").append("<div> Incorrect! The correct answer is: " +questions[questionIndex].a +"</div>");
+            incorrect++;
+            console.log("that is incorrect " +incorrect);
+            $(".choice").append("<div> Incorrect! </div>");
         }
         timer();
     });
 }
 
+function showAnswer() {
+    $(".choice").append("<div> The correct answer is: " +questions[questionIndex].a +"</div>");
+}
+
 // Displays Correct Answer and transitions to next question
-setTimeout(showAnswer, 30000);
-setTimeout(displayQuestion, 35000);
+// setTimeout(showAnswer, 30000);
+// setTimeout(displayQuestion, 35000);
 
-// Timer for each question and resetting after each question
-function timer(){
- if (timeUp) {
-     timerID = setInterval(decrement, 1000);
-     timeUp = false;
- }
-}
-function decrement() {
-    timer--;
 
-    $(".timer").html(timer);
-
-    if (timer === 0) {
-        
-        timeUp();
-
-        showAnswer();
-    }
-}
-
-function timeUp(){
-    timeUp = true;
-    clearInterval(timerID);
-}
-function stop() {
-    gameDone = true;
-    clearInterval(timerID);
-}
+// function stop() {
+//     gameDone = true;
+//     clearInterval(timerID);
+// }
 
 // Restarts Game
 function restart(){
