@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+// ****Question Bank*****
 var questions = [
     {q:"The sum of all angles on any triangle adds up to how many degrees", 
     a: "180 degrees",
@@ -73,26 +75,23 @@ var questions = [
 ];
 
 var correct = 0;
-var incorrect = 0;
-var score = 0;
 var questionIndex = 0;
-var choseAnswer = false;
 var displayQuestion;
 var timer = 30;
-var gameDone = true;
+var timeUp = false;
 var timerID;
+var userAnswer;
 
 
 
-// Screen Transition
-
+// Button Functions
 $(".btn-start").on("click",loading);
+$(".btn-restart").on("click", restart);
 
 
 
-// Functions
 
-// Starting the Game
+// Starting the Game // Screen Transition
 function loading(){
     $(".main-screen").fadeOut();
     $(".loading-screen").delay(2000).fadeIn();
@@ -100,6 +99,10 @@ function loading(){
     $(".question-screen").delay(9000).fadeIn();
 }
 
+// ********Game Functions********
+
+
+// Displays Next Question
 function displayQuestion(){
 if (questionIndex <= questions.length -1) {
     $(".question").append(questions[questionIndex].q);
@@ -111,18 +114,30 @@ else {
 }
 }
 
-function showAnswer(){
-    
+// Checking if user answer is correct
+function userAnswer() {
+    $(".choice").on("click", function(){
+        userAnswer = this;
+        if (userAnswer == questions[questionIndex].a){
+            correct++;
+            $(".choice").append("<div> Correct! The correct answer is: " +questions[questionIndex].a +"</div>");
+        }
+        else {
+            $(".choice").append("<div> Incorrect! The correct answer is: " +questions[questionIndex].a +"</div>");
+        }
+        timer();
+    });
 }
+
 // Displays Correct Answer and transitions to next question
 setTimeout(showAnswer, 30000);
 setTimeout(displayQuestion, 35000);
 
 // Timer for each question and resetting after each question
 function timer(){
- if (gameDone) {
+ if (timeUp) {
      timerID = setInterval(decrement, 1000);
-     gameDone = false;
+     timeUp = false;
  }
 }
 function decrement() {
@@ -132,26 +147,23 @@ function decrement() {
 
     if (timer === 0) {
         
-        stop();
+        timeUp();
 
         showAnswer();
     }
 }
 
+function timeUp(){
+    timeUp = true;
+    clearInterval(timerID);
+}
 function stop() {
     gameDone = true;
     clearInterval(timerID);
 }
 
-function counter(){
-
-}
-
-function endGame(){
-
-}
-
+// Restarts Game
 function restart(){
     location.reload();
 }
-
+});
