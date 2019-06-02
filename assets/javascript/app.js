@@ -1,5 +1,3 @@
-$(document).ready(function(){
-
 // ****Question Bank*****
 var questions = [
     {q:"The sum of all angles on any triangle adds up to how many degrees", 
@@ -11,67 +9,67 @@ var questions = [
 
     {q: "Which word contains a long vowel sound in the following sentence? 'Dogs like tennis balls.'",
     a:  "Like",
-    c:  "Like",
-    c: "Tennis",
-    c: "Balls",
-    c: "Dogs"},
+    c1:  "Like",
+    c2: "Tennis",
+    c3: "Balls",
+    c4: "Dogs"},
 
     {q: "What typically green chemical found in plants uses photosynthesis to turn sunlight into energy?",
     a: "Chlorophyll",
-    c: "Chlorophyll",
-    c: "Iodine",
-    c: "Ethylamine",
-    c: "Chloroform"},
+    c1: "Chlorophyll",
+    c2: "Iodine",
+    c3: "Ethylamine",
+    c4: "Chloroform"},
 
     {q: "Which of these U.S. states was one of the original 13 colonies?",
     a: "North Carolina",
-    c: "Ohio",
-    c: "Alabama",
-    c: "Vermont",
-    c: "North Carolina"},
+    c1: "Ohio",
+    c2: "Alabama",
+    c3: "Vermont",
+    c4: "North Carolina"},
 
     {q: "How many nouns are in the following sentence? 'The dog chewed up the smartphone again!'",
     a: "2",
-    c: "2",
-    c: "3",
-    c: "1",
-    c: "4"},
+    c1: "2",
+    c2: "3",
+    c3: "1",
+    c4: "4"},
 
     {q: "The classic Hans Christian Andersen fairy tale 'The Real Princess' is better known as 'The Princess and the ___.'",
     a: "Pea",
-    c: "Pea",
-    c: "Peach",
-    c: "Bride",
-    c: "Prince"
+    c1: "Pea",
+    c2: "Peach",
+    c3: "Bride",
+    c4: "Prince"
 },
     {q: "If Rembrandt were to paint a portrait using only primary and secondary colors, how many different colors would he be able to use?",
     a: "6",
-    c: "6",
-    c: "5",
-    c: "4",
-    c: "8"},
+    c1: "6",
+    c2: "5",
+    c3: "4",
+    c4: "8"},
 
     { q: "If you are driving 100mph, how long will it take you to go 100 miles?",
     a: "1 hour",
-    c: "1 hour",
-    c: "100 hours",
-    c: "0 hours",
-    c: "2 hours"},
+    c1: "1 hour",
+    c2: "100 hours",
+    c3: "0 hours",
+    c4: "2 hours"},
 
     {q: "If a plane crashed on the border of England and Scotland, where would they bury the survivors?",
     a: "You dont bury survivors",
-    c: "You dont bury survivors",
-    c: "You bury them in England",
-    c: "You bury them in Scotland",
-    c: "You bury them at the border"
+    c1: "You dont bury survivors",
+    c2: "You bury them in England",
+    c3: "You bury them in Scotland",
+    c4: "You bury them at the border"
 },
 
     {q: "Where is the great wall of china?",
     a: "China",
-    c: "China",
-    c: "India",
-    c: "Hong Kong",
-    c: "Taiwan"},
+    c1: "China",
+    c2: "India",
+    c3: "Hong Kong",
+    c4: "Taiwan"},
 ];
 
 var correct = 0;
@@ -79,15 +77,23 @@ var incorrect = 0;
 var questionIndex = 0;
 var displayQuestion;
 var timeNotUp = true;
-var time =10;
 var timerID;
 var userAnswer;
+var contentLoaded = false;
+var gameDone = true;
 
 
 
 // Button Functions
-$(".btn-start").on("click",loading);
+$(".btn-start").on("click",playGame);
 $(".btn-restart").on("click", restart);
+
+// ********Game Functions********
+
+function playGame(){
+    loading();
+    displayQuestion();
+}
 
 // Starting the Game // Screen Transition
 function loading(){
@@ -100,18 +106,23 @@ function loading(){
     $(".question-screen").delay(1000).fadeIn();
 }
 
-displayQuestion();
+// Displays Next Question
+function displayQuestion(){
+    $(".question").html(questions[questionIndex].q);
+    $(".c-1").text(questions[questionIndex].c1);
+    $(".c-2").text(questions[questionIndex].c2);
+    $(".c-3").text(questions[questionIndex].c3);
+    $(".c-4").text(questions[questionIndex].c4);
+    console.log("Did we get here");
+clearInterval(timerID);
 timer();
-userAnswer();
+}
 
-
-
-// ********Game Functions********
 // Timer for each question and resetting after each question
 function timer(){
+    time = 20;
     if (timeNotUp) {
         timerID = setInterval(decrement, 1000);
-        timeNotUp = false;
     }
    }
    function decrement() {
@@ -119,38 +130,25 @@ function timer(){
    
        $(".counter").text(time);
    
-       if (time === 0) {
+       if (time < 1) {
          
            stop();
    
            showAnswer();
        }
-   }
-   
+    }
    function stop(){
-       timeNotUp = true;
        clearInterval(timerID);
    }
 
-// Displays Next Question
-function displayQuestion(){
-if (questionIndex <= questions.length -1) {
-    $(".question").append(questions[questionIndex].q);
-    $(".choice").append("<div class='option' data='c-1'>" +questions[questionIndex].c1 +"</div>");
-    $(".choice").append("<div class='option' data='c-2'>" +questions[questionIndex].c2 +"</div>");
-    $(".choice").append("<div class='option data='c-3'>" +questions[questionIndex].c3 +"</div>");
-    $(".choice").append("<div class='option data='c-4'>" +questions[questionIndex].c4 +"</div>");
-}
-else {
-    $(".result").append("Game Over!");
-    $(".score").append("Your score is: " +correct +" out of " +questions.length);
-}
-}
-
 // Checking if user answer is correct
-function userAnswer() {
-    $(".option").on("click", function(){
-        userAnswer = $(".option").attr('data');
+
+    $(".option").on("click", userAnswer);
+        function userAnswer() {
+        userAnswer = $(this).attr('data');
+        console.log("user answer:" +userAnswer);
+        $(".question").empty();
+        $(".option").empty();  
         switch (userAnswer){
             case 'c-1':
             userAnswer = questions[questionIndex].c1;
@@ -166,36 +164,48 @@ function userAnswer() {
             break;
         }
         console.log("choice is" +userAnswer);
-        if (userAnswer == questions[questionIndex].a){
+        if (userAnswer === questions[questionIndex].a){
             correct++;
-            console.log("correct " +correct);
-            $(".choice").append("<div> Correct! </div>");
+            console.log("correct " +correct);  
+            $(".question").html("Yes that is right!");
         }
         else {
             incorrect++;
             console.log("that is incorrect " +incorrect);
-            $(".choice").append("<div> Incorrect! </div>");
+            $(".question").html("That is incorrect! The correct answer is: " +questions[questionIndex].a);
         }
-        timer();
-    });
+    if (questionIndex <= questions.length -1) {
+    questionIndex++;
+    console.log("we got here interval" +questionIndex);
+    setTimeout(displayQuestion, 5000);
+    }
+    else if (questionIndex === questions.length){
+        setTimeout(score, 5000);
+    }
+}
+
+function score(){
+    console.log("we got here");
+    $(".question").empty();
+    $(".timer").empty();
+    $(".result-screen").fadeIn();   
+    $(".result").html("Game Over!");
+    $(".score").html("Your score is: " +correct +" out of " +questions.length);
 }
 
 function showAnswer() {
-    $(".choice").append("<div> The correct answer is: " +questions[questionIndex].a +"</div>");
+    $(".question").empty();
+    $(".option").empty();
+    $(".question").html("The correct answer is: " +questions[questionIndex].a);
 }
 
-// Displays Correct Answer and transitions to next question
-// setTimeout(showAnswer, 30000);
-// setTimeout(displayQuestion, 35000);
-
-
-// function stop() {
-//     gameDone = true;
-//     clearInterval(timerID);
-// }
+function stop() {
+    timeNotUp = true;
+    clearInterval(timerID);
+    console.log(timerID);
+}
 
 // Restarts Game
 function restart(){
     location.reload();
 }
-});
