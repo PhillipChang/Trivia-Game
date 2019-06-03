@@ -7,12 +7,12 @@ var questions = [
     c3:"90 degrees",
     c4:"360 degrees"},
 
-    {q: "Which word contains a long vowel sound in the following sentence? 'Dogs like tennis balls.'",
-    a:  "Like",
-    c1: "Tennis",
-    c2: "Like",
-    c3: "Balls",
-    c4: "Dogs"},
+    {q: "What type of angle is less than 90 degrees?",
+    a:  "Acute",
+    c1: "Obtuse",
+    c2: "Acute",
+    c3: "Reflex",
+    c4: "Straight"},
 
     {q: "What typically green chemical found in plants uses photosynthesis to turn sunlight into energy?",
     a: "Chlorophyll",
@@ -42,12 +42,12 @@ var questions = [
     c3: "Bride",
     c4: "Pea"
 },
-    {q: "If Rembrandt were to paint a portrait using only primary and secondary colors, how many different colors would he be able to use?",
-    a: "6",
-    c1: "5",
-    c2: "6",
-    c3: "4",
-    c4: "8"},
+    {q: "Which U.S. state's postal abbreviation is 'MI'?",
+    a: "Michigan",
+    c1: "Mississippi",
+    c2: "Missouri",
+    c3: "Michigan",
+    c4: "Minnesota"},
 
     { q: "If you are driving 100mph, how long will it take you to go 100 miles?",
     a: "1 hour",
@@ -149,6 +149,7 @@ function timer(){
     $(".option").on("click", function(){
         userAnswer = $(this).attr('data');
         console.log("user answer:" +userAnswer);
+        checkAnswer();
     });
 
     function checkAnswer(){
@@ -183,8 +184,9 @@ function timer(){
             $(".question").html("Time is up! You did not select an answer. The correct answer is: " +questions[questionIndex].a);
             didAnswer = true;
         }
-    if (questionIndex == (questions.length-1)) {
         clearInterval(timerID);
+
+    if (questionIndex == (questions.length-1)) {
         setTimeout(score, 5000);
         return;
     }
