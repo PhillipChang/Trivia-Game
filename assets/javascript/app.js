@@ -116,6 +116,9 @@ function displayQuestion(){
     console.log("Did we get here");
 clearInterval(timerID);
 timer();
+if (questionIndex === questions.length){
+    setTimeout(score, 5000);
+}
 }
 
 // Timer for each question and resetting after each question
@@ -128,7 +131,7 @@ function timer(){
    function decrement() {
        time--;
    
-       $(".counter").text(time);
+       $(".counter").text("Time Left: " +time);
    
        if (time < 1) {
          
@@ -178,9 +181,6 @@ function timer(){
     questionIndex++;
     console.log("we got here interval" +questionIndex);
     setTimeout(displayQuestion, 5000);
-    }
-    else if (questionIndex === questions.length){
-        setTimeout(score, 5000);
     }
 }
 
