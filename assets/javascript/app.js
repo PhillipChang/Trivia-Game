@@ -9,16 +9,16 @@ var questions = [
 
     {q: "Which word contains a long vowel sound in the following sentence? 'Dogs like tennis balls.'",
     a:  "Like",
-    c1:  "Like",
-    c2: "Tennis",
+    c1: "Tennis",
+    c2: "Like",
     c3: "Balls",
     c4: "Dogs"},
 
     {q: "What typically green chemical found in plants uses photosynthesis to turn sunlight into energy?",
     a: "Chlorophyll",
-    c1: "Chlorophyll",
+    c1: "Ethylamine",
     c2: "Iodine",
-    c3: "Ethylamine",
+    c3: "Chlorophyll",
     c4: "Chloroform"},
 
     {q: "Which of these U.S. states was one of the original 13 colonies?",
@@ -37,30 +37,30 @@ var questions = [
 
     {q: "The classic Hans Christian Andersen fairy tale 'The Real Princess' is better known as 'The Princess and the ___.'",
     a: "Pea",
-    c1: "Pea",
+    c1: "Prince",
     c2: "Peach",
     c3: "Bride",
-    c4: "Prince"
+    c4: "Pea"
 },
     {q: "If Rembrandt were to paint a portrait using only primary and secondary colors, how many different colors would he be able to use?",
     a: "6",
-    c1: "6",
-    c2: "5",
+    c1: "5",
+    c2: "6",
     c3: "4",
     c4: "8"},
 
     { q: "If you are driving 100mph, how long will it take you to go 100 miles?",
     a: "1 hour",
-    c1: "1 hour",
+    c1: "0 hours",
     c2: "100 hours",
-    c3: "0 hours",
+    c3: "1 hour",
     c4: "2 hours"},
 
     {q: "If a plane crashed on the border of England and Scotland, where would they bury the survivors?",
     a: "You dont bury survivors",
-    c1: "You dont bury survivors",
+    c1: "You bury them in Scotland",
     c2: "You bury them in England",
-    c3: "You bury them in Scotland",
+    c3: "You dont bury survivors",
     c4: "You bury them at the border"
 },
 
@@ -74,13 +74,14 @@ var questions = [
 
 var correct = 0;
 var incorrect = 0;
-var questionIndex = 9;
+var questionIndex = 6;
 var displayQuestion;
 var timeNotUp = true;
 var timerID;
 var userAnswer;
 var contentLoaded = false;
 var gameDone = true;
+var didAnswer = true;
 
 
 
@@ -120,7 +121,7 @@ timer();
 
 // Timer for each question and resetting after each question
 function timer(){
-    time = 20;
+    time = 5;
     if (timeNotUp) {
         timerID = setInterval(decrement, 1000);
     }
@@ -133,8 +134,10 @@ function timer(){
        if (time < 1) {
          
            stop();
-   
-           showAnswer();
+
+           didAnswer = false;
+
+           checkAnswer();
        }
     }
    function stop(){
@@ -143,10 +146,12 @@ function timer(){
 
 // Checking if user answer is correct
 
-    $(".option").on("click", userAnswer);
-        function userAnswer() {
+    $(".option").on("click", function(){
         userAnswer = $(this).attr('data');
         console.log("user answer:" +userAnswer);
+    });
+
+    function checkAnswer(){
         $(".question").empty();
         $(".option").empty();  
         switch (userAnswer){
@@ -164,15 +169,19 @@ function timer(){
             break;
         }
         console.log("choice is" +userAnswer);
-        if (userAnswer === questions[questionIndex].a){
+        if ((userAnswer === questions[questionIndex].a) && (didAnswer == true)){
             correct++;
             console.log("correct " +correct);  
             $(".question").html("Yes that is right!");
         }
-        else {
+        else if ((userAnswer != questions[questionIndex].a) && (didAnswer == true)){
             incorrect++;
             console.log("that is incorrect " +incorrect);
             $(".question").html("That is incorrect! The correct answer is: " +questions[questionIndex].a);
+        }
+        else {
+            $(".question").html("Time is up! You did not select an answer. The correct answer is: " +questions[questionIndex].a);
+            didAnswer = true;
         }
     if (questionIndex == (questions.length-1)) {
         clearInterval(timerID);
@@ -193,12 +202,6 @@ function score(){
     $(".result-screen").fadeIn();   
     $(".result").html("Game Over!");
     $(".score").html("Your score is: " +correct +" out of " +questions.length);
-}
-
-function showAnswer() {
-    $(".question").empty();
-    $(".option").empty();
-    $(".question").html("The correct answer is: " +questions[questionIndex].a);
 }
 
 function stop() {

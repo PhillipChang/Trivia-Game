@@ -20,16 +20,14 @@ body {
 
 .loading-screen {
     display:none;
-    /* height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction:column; */
 }
 
 
 .result-screen {
     display:none;
+    font-size: 30px;
+    font-family: 'Encode Sans Semi Expanded', sans-serif;
+    color:white;
 }
 
 .question-screen {
@@ -45,7 +43,6 @@ body {
 .question {
     font-family: 'Patrick Hand SC', cursive;
     font-size: 30px;
-    /* font-family: 'Encode Sans Semi Expanded', sans-serif; */
 }
 
 .option {
