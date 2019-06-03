@@ -58,3 +58,7 @@ body {
     font-family: 'Patrick Hand SC', cursive;
     font-size: 25px;
 }
+
+img {
+    width:100%;
+}

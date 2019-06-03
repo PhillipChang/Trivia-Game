@@ -111,6 +111,7 @@ function loading(){
 
 // Displays Next Question
 function displayQuestion(){
+    $(".answer-pic").empty();  
     $(".question").html(questions[questionIndex].q);
     $(".c-1").text(questions[questionIndex].c1);
     $(".c-2").text(questions[questionIndex].c2);
@@ -156,7 +157,7 @@ function timer(){
 
     function checkAnswer(){
         $(".question").empty();
-        $(".option").empty();  
+        $(".option").empty();
         switch (userAnswer){
             case 'c-1':
             userAnswer = questions[questionIndex].c1;
@@ -171,7 +172,7 @@ function timer(){
             userAnswer = questions[questionIndex].c4;
             break;
         }
-        $(".answer-pic").html("<img src = 'assets/images/'" +pics[questionIndex] +".jpg");
+        $(".answer-pic").html("<img src = 'assets/images/" +pics[questionIndex] +".jpg'>");
         console.log("choice is" +userAnswer);
         if ((userAnswer === questions[questionIndex].a) && (didAnswer == true)){
             correct++;
@@ -185,6 +186,7 @@ function timer(){
         }
         else {
             $(".question").html("Time is up! You did not select an answer. The correct answer is: " +questions[questionIndex].a);
+
             didAnswer = true;
         }
         clearInterval(timerID);
@@ -204,14 +206,15 @@ function score(){
     console.log("we got here");
     $(".question").empty();
     $(".counter").empty();
+    $(".answer-pic").empty();
     $(".result-screen").fadeIn();   
     if (correct <= 5){
     $(".result").html("You are not smarter than a 5th Grader!");
-    $(".end-pic").html("<img src = 'assets/images/'" +pics[11] +".gif");
+    $(".ending-pic").html("<img src = 'assets/images/" +pics[11] +".gif'>");
     }
     else {
     $(".result").html("You are smarter than a 5th Grader!");
-    $(".end-pic").html("<img src = 'assets/images/'" +pics[10] +".gif");
+    $(".ending-pic").html("<img src = 'assets/images/'" +pics[10] +".gif");
     }
     $(".score").html("Your score is: " +correct +" out of " +questions.length);
 }
