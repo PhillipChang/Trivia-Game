@@ -74,7 +74,7 @@ var questions = [
 
 var correct = 0;
 var incorrect = 0;
-var questionIndex = 0;
+var questionIndex = 9;
 var displayQuestion;
 var timeNotUp = true;
 var timerID;
@@ -116,9 +116,6 @@ function displayQuestion(){
     console.log("Did we get here");
 clearInterval(timerID);
 timer();
-if (questionIndex === questions.length){
-    setTimeout(score, 5000);
-}
 }
 
 // Timer for each question and resetting after each question
@@ -177,17 +174,22 @@ function timer(){
             console.log("that is incorrect " +incorrect);
             $(".question").html("That is incorrect! The correct answer is: " +questions[questionIndex].a);
         }
-    if (questionIndex <= questions.length -1) {
-    questionIndex++;
-    console.log("we got here interval" +questionIndex);
-    setTimeout(displayQuestion, 5000);
+    if (questionIndex == (questions.length-1)) {
+        clearInterval(timerID);
+        setTimeout(score, 5000);
+        return;
+    }
+    else{
+        questionIndex++;
+        console.log("we got here interval" +questionIndex);
+        setTimeout(displayQuestion, 5000);
     }
 }
 
 function score(){
     console.log("we got here");
     $(".question").empty();
-    $(".timer").empty();
+    $(".counter").empty();
     $(".result-screen").fadeIn();   
     $(".result").html("Game Over!");
     $(".score").html("Your score is: " +correct +" out of " +questions.length);
