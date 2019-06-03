@@ -72,6 +72,8 @@ var questions = [
     c4: "Taiwan"},
 ];
 
+var pics = ["pic-1","pic-2","pic-3","pic-4","pic-5","pic-6","pic-7","pic-8","pic-9","pic-10","end-pic-1","end-pic-2"];
+
 var correct = 0;
 var incorrect = 0;
 var questionIndex = 6;
@@ -169,6 +171,7 @@ function timer(){
             userAnswer = questions[questionIndex].c4;
             break;
         }
+        $(".answer-pic").html("<img src = 'assets/images/'" +pics[questionIndex] +".jpg");
         console.log("choice is" +userAnswer);
         if ((userAnswer === questions[questionIndex].a) && (didAnswer == true)){
             correct++;
@@ -202,7 +205,14 @@ function score(){
     $(".question").empty();
     $(".counter").empty();
     $(".result-screen").fadeIn();   
-    $(".result").html("Game Over!");
+    if (correct <= 5){
+    $(".result").html("You are not smarter than a 5th Grader!");
+    $(".end-pic").html("<img src = 'assets/images/'" +pics[11] +".gif");
+    }
+    else {
+    $(".result").html("You are smarter than a 5th Grader!");
+    $(".end-pic").html("<img src = 'assets/images/'" +pics[10] +".gif");
+    }
     $(".score").html("Your score is: " +correct +" out of " +questions.length);
 }
 
