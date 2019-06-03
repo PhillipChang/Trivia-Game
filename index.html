@@ -14,24 +14,41 @@
     <!-- Favicon -->
     <link rel="stylesheet" href="assets/images/trivia-icon.png">
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Expanded|Patrick+Hand+SC&display=swap" rel="stylesheet">
+
     <title>Trivia Game</title>
   </head>
   <body>
-    <div class="screen main-screen">
+    <div class="container">
+    <section class="screen main-screen">
+        <img src="assets/images/logo.png" class="logo" alt="logo">
+          <button type="button" class="btn-start btn-danger btn-lg">Start</button>
+    </section>
 
+    <section class="screen loading-screen">
+      <img src="assets/images/loading.gif" alt="loading-apple">  
+      <h1>Loading ...</h1>
+    </section>
+
+    <section class="screen question-screen">
+      <div class="counter"></div>
+      <br>
+      <div class="question"></div>
+        <section class="choice">
+          <div class="option c-1" data="c-1"></div>
+          <div class="option c-2" data="c-2"></div>
+          <div class="option c-3" data="c-3"></div>
+          <div class="option c-4" data="c-4"></div>
+        </section>
+    </section>
+
+    <section class="screen result-screen">
+        <div class="result">Result</div>
+        <div class="score">Score</div>
+        <button type="button" class="btn-restart btn-danger btn-lg">Restart</button>
+    </section>
     </div>
-
-    <div class="screen loading-screen">
-        <h1>Question</h1>
-        <h1>choice</h1>
-      </div>
-
-
-    <div class="screen question-screen">
-      <h1>Question</h1>
-      <h1>choice</h1>
-    </div>
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
