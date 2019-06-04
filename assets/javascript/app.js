@@ -83,6 +83,13 @@ var timerID;
 var userAnswer;
 var didAnswer = true;
 
+// Game Audio
+var thinkingMusic = document.createElement("audio");
+thinkingMusic.setAttribute("src", "assets/audio/thinking.MP3");
+var sadSong = document.createElement("audio");
+sadSong.setAttribute("src", "assets/audio/sad.MP3");
+var victory = document.createElement("audio");
+victory.setAttribute("src", "assets/audio/cheer.MP3");
 
 
 // Button Functions
@@ -90,7 +97,6 @@ $(".btn-start").on("click",playGame);
 $(".btn-restart").on("click", restart);
 
 // ********Game Functions********
-
 function playGame(){
     loading();
     setTimeout(displayQuestion,11000);
@@ -102,9 +108,6 @@ function loading(){
     $(".loading-screen").delay(2000).fadeIn();
     $(".loading-screen").delay(7000).fadeOut();
     $(".question-screen").delay(11000).fadeIn();
-    // $(".loading-screen").delay(1000).fadeIn();
-    // $(".loading-screen").delay(1000).fadeOut();
-    // $(".question-screen").delay(1000).fadeIn();
 }
 
 // Displays Next Question
@@ -123,6 +126,8 @@ timer();
 // Timer for each question and resetting after each question
 function timer(){
     time = 30;
+    thinkingMusic.loop = true;
+    thinkingMusic.play();
     if (timeNotUp) {
         timerID = setInterval(decrement, 1000);
     }
@@ -142,7 +147,8 @@ function timer(){
        }
     }
    function stop(){
-       clearInterval(timerID);
+    timeNotUp = true;
+    clearInterval(timerID);
    }
 
 // Checking if user answer is correct
@@ -198,28 +204,30 @@ function timer(){
     }
 }
 
+// Displays Score
 function score(){
+    thinkingMusic.loop=false;
+    thinkingMusic.pause();
     $(".question").empty();
     $(".counter").empty();
     $(".answer-pic").empty();
     $(".result-screen").fadeIn();   
     if (correct <= 5){
+    sadSong.play();
+    sadSong.volume = 1;
     $(".result").html("You are not smarter than a 5th Grader!");
     $(".ending-pic").fadeIn();
     $(".ending-pic").html("<img src = 'assets/images/" +pics[11] +".gif' class='pic'>");
     }
     else {
+    victory.play();
+    victory.volume = 0.7;
     $(".result").html("You are smarter than a 5th Grader!");
     $(".ending-pic").fadeIn();
     $(".ending-pic").html("<img src = 'assets/images/" +pics[10] +".gif' class='pic'>");
     }
     $(".score").html("Your score is: " +correct +" out of " +questions.length);
     $(".score").append("<div> Incorrect Answers: " +incorrect +"</div>");
-}
-
-function stop() {
-    timeNotUp = true;
-    clearInterval(timerID);
 }
 
 // Restarts Game
@@ -233,5 +241,6 @@ function restart(){
     timerID;
     userAnswer;
     didAnswer = true;
+    thinkingMusic.loop= true;
     $(".main-screen").fadeIn();
 }
