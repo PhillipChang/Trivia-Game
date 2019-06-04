@@ -76,13 +76,11 @@ var pics = ["pic-1","pic-2","pic-3","pic-4","pic-5","pic-6","pic-7","pic-8","pic
 
 var correct = 0;
 var incorrect = 0;
-var questionIndex = 6;
+var questionIndex = 0;
 var displayQuestion;
 var timeNotUp = true;
 var timerID;
 var userAnswer;
-var contentLoaded = false;
-var gameDone = true;
 var didAnswer = true;
 
 
@@ -95,18 +93,18 @@ $(".btn-restart").on("click", restart);
 
 function playGame(){
     loading();
-    displayQuestion();
+    setTimeout(displayQuestion,11000);
 }
 
 // Starting the Game // Screen Transition
 function loading(){
     $(".main-screen").fadeOut();
-    // $(".loading-screen").delay(2000).fadeIn();
-    // $(".loading-screen").delay(5000).fadeOut();
-    // $(".question-screen").delay(9000).fadeIn();
-    $(".loading-screen").delay(1000).fadeIn();
-    $(".loading-screen").delay(1000).fadeOut();
-    $(".question-screen").delay(1000).fadeIn();
+    $(".loading-screen").delay(2000).fadeIn();
+    $(".loading-screen").delay(7000).fadeOut();
+    $(".question-screen").delay(11000).fadeIn();
+    // $(".loading-screen").delay(1000).fadeIn();
+    // $(".loading-screen").delay(1000).fadeOut();
+    // $(".question-screen").delay(1000).fadeIn();
 }
 
 // Displays Next Question
@@ -124,7 +122,7 @@ timer();
 
 // Timer for each question and resetting after each question
 function timer(){
-    time = 5;
+    time = 30;
     if (timeNotUp) {
         timerID = setInterval(decrement, 1000);
     }
@@ -172,20 +170,19 @@ function timer(){
             userAnswer = questions[questionIndex].c4;
             break;
         }
-        $(".answer-pic").html("<img src = 'assets/images/" +pics[questionIndex] +".jpg'>");
-        console.log("choice is" +userAnswer);
+        $(".answer-pic").fadeIn();
+        $(".answer-pic").html("<img src = 'assets/images/" +pics[questionIndex] +".jpg' class='pic'>");
+        $(".answer-pic").delay(4000).fadeOut();
         if ((userAnswer === questions[questionIndex].a) && (didAnswer == true)){
             correct++;
-            console.log("correct " +correct);  
             $(".question").html("Yes that is right!");
         }
         else if ((userAnswer != questions[questionIndex].a) && (didAnswer == true)){
             incorrect++;
-            console.log("that is incorrect " +incorrect);
             $(".question").html("That is incorrect! The correct answer is: " +questions[questionIndex].a);
         }
         else {
-            $(".question").html("Time is up! You did not select an answer. The correct answer is: " +questions[questionIndex].a);
+            $(".question").html("Time is up! You did not select an answer. <p> The correct answer is: " +questions[questionIndex].a);
 
             didAnswer = true;
         }
@@ -197,35 +194,44 @@ function timer(){
     }
     else{
         questionIndex++;
-        console.log("we got here interval" +questionIndex);
         setTimeout(displayQuestion, 5000);
     }
 }
 
 function score(){
-    console.log("we got here");
     $(".question").empty();
     $(".counter").empty();
     $(".answer-pic").empty();
     $(".result-screen").fadeIn();   
     if (correct <= 5){
     $(".result").html("You are not smarter than a 5th Grader!");
-    $(".ending-pic").html("<img src = 'assets/images/" +pics[11] +".gif'>");
+    $(".ending-pic").fadeIn();
+    $(".ending-pic").html("<img src = 'assets/images/" +pics[11] +".gif' class='pic'>");
     }
     else {
     $(".result").html("You are smarter than a 5th Grader!");
-    $(".ending-pic").html("<img src = 'assets/images/'" +pics[10] +".gif");
+    $(".ending-pic").fadeIn();
+    $(".ending-pic").html("<img src = 'assets/images/" +pics[10] +".gif' class='pic'>");
     }
     $(".score").html("Your score is: " +correct +" out of " +questions.length);
+    $(".score").append("<div> Incorrect Answers: " +incorrect +"</div>");
 }
 
 function stop() {
     timeNotUp = true;
     clearInterval(timerID);
-    console.log(timerID);
 }
 
 // Restarts Game
 function restart(){
-    location.reload();
+    $(".result-screen").fadeOut();
+    correct = 0;
+    incorrect = 0;
+    questionIndex = 0;
+    displayQuestion;
+    timeNotUp = true;
+    timerID;
+    userAnswer;
+    didAnswer = true;
+    $(".main-screen").fadeIn();
 }
