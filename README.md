@@ -1,5 +1,7 @@
 # Trivia-Game
 
+[Playable Link](https://phillipchang.github.io/Trivia-Game/)
+
 ### Main-Screen
 ![Main-Screen](assets/images/main-page.png)
 
