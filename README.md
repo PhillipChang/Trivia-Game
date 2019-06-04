@@ -3,13 +3,13 @@
 [Playable Link](https://phillipchang.github.io/Trivia-Game/)
 
 ### Main-Screen
-![Main-Screen](assets/images/main-page.png)
+![Main-Screen](assets/images/start-game.gif)
 
-### Character Select Screen
-![Character-Select-Screen](assets/images/character-select.png)
+### Time Expire
+![Time up](assets/images/time.gif)
 
-### Battle Screen
-![Battle-Screen](assets/images/battle-page.png)
+### Result Screen
+![Result](assets/images/end-game.gif)
 
 ## Description
 
