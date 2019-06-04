@@ -22,12 +22,17 @@ body {
     display:none;
 }
 
-
+h1 {
+    font-family: 'Patrick Hand SC', cursive;
+    text-align: center;
+    color:white;
+}
 .result-screen {
     display:none;
     font-size: 30px;
     font-family: 'Encode Sans Semi Expanded', sans-serif;
     color:white;
+    text-align: center;
 }
 
 .question-screen {
@@ -56,9 +61,15 @@ body {
 
 .counter {
     font-family: 'Patrick Hand SC', cursive;
-    font-size: 25px;
+    font-size: 45px;
 }
 
-img {
-    width:100%;
+.answer-pic, .ending-pic {
+    display:none;
+    height: 250px;
+}
+
+.pic {
+    max-height:100%;
+    max-width:100%;
 }
