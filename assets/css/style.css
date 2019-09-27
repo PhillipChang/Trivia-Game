@@ -1,7 +1,13 @@
+html {
+    background: url("../images/background.jpg") no-repeat center center fixed !important;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 body {
-    background-image: url("../images/background.jpg");
-    background-size: 100%; 
-    box-sizing: border-box;
+    height:100%;
+    background-color:transparent !important;
 }
 
 .container {
